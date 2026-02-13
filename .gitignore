@@ -1,0 +1,17 @@
+
+# IDE/editor files
+.vs/
+*.user
+*.suo
+*.cache
+
+# Claude Code local settings
+.claude/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# User-specific files
+*.rsuser
+*.sln.docstates

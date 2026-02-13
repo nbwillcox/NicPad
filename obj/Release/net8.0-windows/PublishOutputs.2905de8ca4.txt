@@ -1,0 +1,6 @@
+C:\Users\nicho\Desktop\NicPad\publish\NicPad.exe
+C:\Users\nicho\Desktop\NicPad\publish\NicPad.dll
+C:\Users\nicho\Desktop\NicPad\publish\NicPad.deps.json
+C:\Users\nicho\Desktop\NicPad\publish\NicPad.runtimeconfig.json
+C:\Users\nicho\Desktop\NicPad\publish\NicPad.pdb
+C:\Users\nicho\Desktop\NicPad\publish\Markdig.dll

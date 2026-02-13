@@ -1,0 +1,17 @@
+C:\Users\nicho\Desktop\NicPad\bin\Debug\net8.0-windows\NicPad.exe
+C:\Users\nicho\Desktop\NicPad\bin\Debug\net8.0-windows\NicPad.deps.json
+C:\Users\nicho\Desktop\NicPad\bin\Debug\net8.0-windows\NicPad.runtimeconfig.json
+C:\Users\nicho\Desktop\NicPad\bin\Debug\net8.0-windows\NicPad.dll
+C:\Users\nicho\Desktop\NicPad\bin\Debug\net8.0-windows\NicPad.pdb
+C:\Users\nicho\Desktop\NicPad\bin\Debug\net8.0-windows\Markdig.dll
+C:\Users\nicho\Desktop\NicPad\obj\Debug\net8.0-windows\NicPad.csproj.AssemblyReference.cache
+C:\Users\nicho\Desktop\NicPad\obj\Debug\net8.0-windows\NicPad.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nicho\Desktop\NicPad\obj\Debug\net8.0-windows\NicPad.AssemblyInfoInputs.cache
+C:\Users\nicho\Desktop\NicPad\obj\Debug\net8.0-windows\NicPad.AssemblyInfo.cs
+C:\Users\nicho\Desktop\NicPad\obj\Debug\net8.0-windows\NicPad.csproj.CoreCompileInputs.cache
+C:\Users\nicho\Desktop\NicPad\obj\Debug\net8.0-windows\NicPad.csproj.Up2Date
+C:\Users\nicho\Desktop\NicPad\obj\Debug\net8.0-windows\NicPad.dll
+C:\Users\nicho\Desktop\NicPad\obj\Debug\net8.0-windows\refint\NicPad.dll
+C:\Users\nicho\Desktop\NicPad\obj\Debug\net8.0-windows\NicPad.pdb
+C:\Users\nicho\Desktop\NicPad\obj\Debug\net8.0-windows\NicPad.genruntimeconfig.cache
+C:\Users\nicho\Desktop\NicPad\obj\Debug\net8.0-windows\ref\NicPad.dll
