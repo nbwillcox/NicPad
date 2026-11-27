@@ -1,0 +1,10 @@
+<Project>
+
+  <!-- The WebView2 package always references its WPF assembly; this app is WinForms-only (avoids a WindowsBase conflict). -->
+  <Target Name="DropWebView2Wpf" BeforeTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <Reference Remove="@(Reference)" Condition="'%(Filename)' == 'Microsoft.Web.WebView2.Wpf'" />
+    </ItemGroup>
+  </Target>
+
+</Project>

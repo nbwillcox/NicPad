@@ -1,35 +1,80 @@
+using NicPad.Core;
+using NicPad.UI;
+
 namespace NicPad;
 
-static class Program
+internal static class Program
 {
     [STAThread]
-    static void Main(string[] args)
+    private static void Main(string[] args)
     {
         ApplicationConfiguration.Initialize();
+        Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 
-        var mainForm = new MainForm();
+        var paths = AppPaths.Default();
+        AppDomain.CurrentDomain.UnhandledException += (_, e) => CrashLog.Write(paths.CrashLogFile, e.ExceptionObject as Exception);
 
-        // If files were passed as arguments, open them
-        if (args.Length > 0)
+        var settings = AppSettings.Load(paths.SettingsFile, out _);
+        var files = ResolveFiles(args);
+        var newWindow = args.Any(a => string.Equals(a, "--new-window", StringComparison.OrdinalIgnoreCase));
+
+        using var instance = settings.SingleInstance && !newWindow ? SingleInstance.Acquire(paths.InstanceKey) : null;
+        if (instance is { IsPrimary: false } && instance.TrySendToPrimary(files, NativeMethods.AllowForeground))
         {
-            foreach (var file in args)
+            return;
+        }
+
+        using var form = new MainForm(paths);
+        Application.ThreadException += (_, e) => form.HandleCrash(e.Exception);
+
+        if (instance is { IsPrimary: true })
+        {
+            form.Shown += (_, _) => instance.Listen(list =>
             {
                 try
                 {
-                    // Resolve to full path and validate
-                    var fullPath = Path.GetFullPath(file);
-                    if (File.Exists(fullPath))
-                    {
-                        mainForm.OpenFile(fullPath);
-                    }
+                    form.BeginInvoke(() => form.OpenFromAnotherInstance(list));
                 }
-                catch (Exception)
+                catch (Exception ex) when (ex is InvalidOperationException or ObjectDisposedException)
                 {
-                    // Skip invalid paths silently
+                    // Window is closing.
                 }
+            });
+        }
+
+        if (files.Count > 0)
+        {
+            form.OpenFiles(files);
+        }
+
+        Application.Run(form);
+    }
+
+    /// <summary>Command-line files: absolute, existing paths only; switches (--x) are skipped.</summary>
+    private static List<string> ResolveFiles(string[] args)
+    {
+        var result = new List<string>();
+        foreach (var arg in args)
+        {
+            if (arg.StartsWith("--", StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            try
+            {
+                var full = Path.GetFullPath(arg);
+                if (File.Exists(full))
+                {
+                    result.Add(full);
+                }
+            }
+            catch (Exception ex) when (ex is ArgumentException or NotSupportedException or PathTooLongException or System.Security.SecurityException)
+            {
+                // Not a usable path; skip it.
             }
         }
 
-        Application.Run(mainForm);
+        return result;
     }
 }
