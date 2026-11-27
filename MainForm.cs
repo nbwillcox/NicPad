@@ -51,6 +51,7 @@ public class MainForm : Form
     private void InitializeComponent()
     {
         this.Text = "NicPad";
+        this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
         this.Size = new Size(1000, 700);
         this.StartPosition = FormStartPosition.CenterScreen;
         this.BackColor = Color.FromArgb(252, 252, 252);

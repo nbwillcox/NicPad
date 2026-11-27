@@ -8,6 +8,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>NicPad</AssemblyName>
     <RootNamespace>NicPad</RootNamespace>
+    <ApplicationIcon>nicpad.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
