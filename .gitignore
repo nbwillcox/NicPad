@@ -1,11 +1,20 @@
+# Build output
+bin/
+obj/
+publish/
+artifacts/
+TestResults/
+*.binlog
 
 # IDE/editor files
 .vs/
+.vscode/
+.idea/
 *.user
 *.suo
 *.cache
 
-# Claude Code local settings
+# Claude Code local settings and skills
 .claude/
 
 # OS files

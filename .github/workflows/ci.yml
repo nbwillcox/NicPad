@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        run: dotnet restore NicPad.sln
+
+      - name: Build (warnings are errors)
+        run: dotnet build NicPad.sln -c Release --no-restore -warnaserror
+
+      - name: Test
+        run: dotnet test --solution NicPad.sln -c Release --no-build
+
+      - name: Vulnerable package audit
+        shell: pwsh
+        run: |
+          $out = dotnet list NicPad.sln package --vulnerable --include-transitive 2>&1 | Out-String
+          Write-Output $out
+          if ($out -match 'has the following vulnerable packages') { throw 'Vulnerable packages found' }
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build-test
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Publish single-file exe
+        run: dotnet publish NicPad.csproj -c Release -p:PublishProfile=win-x64
+
+      - name: Checksum
+        shell: pwsh
+        run: |
+          $exe = 'artifacts/publish/win-x64/NicPad.exe'
+          (Get-FileHash $exe -Algorithm SHA256).Hash.ToLower() + '  NicPad.exe' | Set-Content 'artifacts/publish/win-x64/NicPad.exe.sha256'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: NicPad-win-x64
+          path: artifacts/publish/win-x64/NicPad.exe*
+
+      - name: GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/publish/win-x64/NicPad.exe
+            artifacts/publish/win-x64/NicPad.exe.sha256

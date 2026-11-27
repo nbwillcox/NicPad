@@ -2,16 +2,41 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>NicPad</AssemblyName>
     <RootNamespace>NicPad</RootNamespace>
+    <ApplicationIcon>nicpad.ico</ApplicationIcon>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+
+    <Version>1.1.0</Version>
+    <Product>NicPad</Product>
+    <Description>Lightweight tabbed text and Markdown editor for Windows</Description>
+    <RepositoryUrl>https://github.com/nbwillcox/NicPad</RepositoryUrl>
+
+    <!-- Code quality and security gates -->
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <WarningsAsErrors>$(WarningsAsErrors);nullable;NU1901;NU1902;NU1903;NU1904</WarningsAsErrors>
+    <NuGetAudit>true</NuGetAudit>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAuditLevel>low</NuGetAuditLevel>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.34.0" />
+    <!-- The test project lives in a subfolder; keep its sources out of the app. -->
+    <Compile Remove="NicPad.Tests\**" />
+    <EmbeddedResource Remove="NicPad.Tests\**" />
+    <None Remove="NicPad.Tests\**" />
+    <InternalsVisibleTo Include="NicPad.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlSanitizer" Version="11.0.74" />
+    <PackageReference Include="Markdig" Version="1.6.0" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4370.26" />
+    <PackageReference Include="System.Speech" Version="10.0.15" />
   </ItemGroup>
 
 </Project>
